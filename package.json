@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "csv-writer": "^1.6.0",
+    "dotenv": "^17.2.3",
+    "mqtt": "^5.14.1",
+    "node-opcua": "^2.160.0",
+    "nodemailer": "^7.0.12",
+    "prompt-sync": "^4.2.0"
+  }
+}
