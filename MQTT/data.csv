@@ -7,6 +7,5 @@ timestamp,supply_air_temp_c,return_air_temp_c,fan_speed_pct,remote_avg_temp_c,un
 2026-01-15T16:50:01.794180+02:00,18,35.4,70,22,C,vertiv_modbus
 2026-01-15T17:00:02.300735+02:00,18.5,35.4,70,22.1,C,vertiv_modbus
 2026-01-15T17:10:01.812074+02:00,18.3,35.5,70,22.1,C,vertiv_modbus
-2026-01-15T15:20:31.440Z,18.3,35.5,70,22.1,C,vertiv_modbus
-2026-01-15T15:21:22.375Z,18.3,35.5,70,22.1,C,vertiv_modbus
-2026-01-15T15:21:58.208Z,18.3,35.5,70,22.1,C,vertiv_modbus
+2026-01-15T17:30:01.887234+02:00,18,35.3,70,22,C,vertiv_modbus
+2026-01-15T17:40:01.945557+02:00,18,35.3,70,22,C,vertiv_modbus
