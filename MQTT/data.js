@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { timestamp } = require("node-opcua");
 let sensor1Data = [];
 let headerWritten = false;
 
@@ -16,7 +17,7 @@ const storeData = async function (data) {
   const row = Object.values(data).join(",") + "\n";
   fs.appendFileSync("data.csv", row);
 
-  console.log("✅ Stored:", data);
+  console.log({"✅ Stored": data, timestamp: new Date().toISOString()});
 };
 
 

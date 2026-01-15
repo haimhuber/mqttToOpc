@@ -20,7 +20,7 @@ async function mqttClient() {
 
     // setup the callbacks
     client.on('connect', function () {
-        console.log('MQTT Client Connected to broker');
+        console.log('MQTT Client Connected to broker', { timestamp: new Date().toISOString()});
     });
 
     client.on('error', function (error) {
@@ -31,21 +31,20 @@ async function mqttClient() {
         // called each time a message is received
         try {
             const msgStr = message.toString();
-            console.log("Raw message received:", msgStr);
             const parsed = JSON.parse(msgStr);
-                console.log("Parsed JSON message received:", parsed);
-                storeData(parsed);
-                writeOpcTags.writeVertivTags(parsed);
+            console.log("Parsed JSON message received:", parsed, { timestamp: new Date().toISOString()});
+            storeData(parsed);
+            writeOpcTags.writeVertivTags(parsed);
             // Only parse if message looks like JSON
         } catch (e) {
             console.log("Error parsing message:", e);
-            console.log("Message content:", msgStr);
+            console.log({"Message content": msgStr, timestamp: new Date().toISOString()});
         }
     });
 
     // subscribe to topic 'my/test/topic'
     client.subscribe(process.env.TOPIC, () => {
-        console.log(`Subscribed to topic '${process.env.TOPIC}'`);
+        console.log({ subscribedTo: process.env.TOPIC, timestamp: new Date().toISOString() });
         // publish a message to the topic;
         
     });
