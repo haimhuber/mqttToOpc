@@ -1,5 +1,4 @@
 const fs = require("fs");
-const opc = require("./opcUaReadData");
 let sensor1Data = [];
 let headerWritten = false;
 

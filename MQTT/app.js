@@ -3,23 +3,15 @@ const mqttPublish = require("./mqttPublish");
 const opcUaRead = require("./opcUaReadData");
 const opcUaWrite = require("./opcUaWriteData");
 const mail = require("./email");
-const publishData = async () => {   
-    try {
-        await mqttPublish.publishData();
-        console.log("Published OPC UA Data to MQTT Broker");
-    } catch (err) { 
-        console.error("Error publishing data:", err);
-    }
-};
 
 const opcReadData = async () => {   
     try {
-        await opcUaRead.readOpcTags();
+        const demandValue = await opcUaRead.readOpcTags();
+        console.log("Demand Value for start CWM 2:", demandValue);
     } catch (err) {
         console.error("Error reading OPC UA data:", err);
     }
 };
-
 mqttClient.mqttClient();
-//setInterval(opcReadData, 60000); // Read OPC UA data every 60 seconds
+setInterval(opcReadData, 10000); // Read OPC UA data every 60 seconds
 

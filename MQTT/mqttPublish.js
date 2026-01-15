@@ -9,13 +9,16 @@ var options = {
         password: process.env.PASSWORD,
         rejectUnauthorized: false
     };
-    payload = {
-        vertivTemp : 22.5,
-        vertivHumidity : 55,
-        vertivPressure : 1013.25,
-        setpoint : 23.0,
-        timestamp : new Date().toISOString()
-    };
+
+let payload = {
+    timestamp: '2026-01-15T17:10:01.812074+02:00',
+    supply_air_temp_c: 18.3,
+    return_air_temp_c: 35.5,
+    fan_speed_pct: 70,
+    remote_avg_temp_c: 22.1,
+    unit: 'C',
+    source: 'vertiv_modbus'
+};
 
 async function publishData() {
     var client = mqtt.connect(options);

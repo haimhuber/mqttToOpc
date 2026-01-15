@@ -1,6 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
 const storeData = require('./data.js').storeData;
+const writeOpcTags = require('./vertivOpcData.js');
 var mqtt = require('mqtt');
 var options = {
         host: process.env.BROKER_URL,
@@ -34,6 +35,7 @@ async function mqttClient() {
             const parsed = JSON.parse(msgStr);
                 console.log("Parsed JSON message received:", parsed);
                 storeData(parsed);
+                writeOpcTags.writeVertivTags(parsed);
             // Only parse if message looks like JSON
         } catch (e) {
             console.log("Error parsing message:", e);
