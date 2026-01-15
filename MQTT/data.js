@@ -20,4 +20,8 @@ const storeData = async function (data) {
   console.log("✅ Stored:", data);
 };
 
+
+
+
+
 module.exports = { storeData };

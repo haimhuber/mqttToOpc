@@ -20,8 +20,7 @@ const opcReadData = async () => {
     }
 };
 
-// mqttClient.mqttClient();
-// setInterval(publishData, 5000);
-// setInterval(opcReadData, 1000);
+mqttClient.mqttClient();
+setInterval(publishData, 5000);
+//setInterval(opcReadData, 60000); // Read OPC UA data every 60 seconds
 // setInterval(() => opcUaWrite.writeOpcTags(1), 5000);
-mail.mailHandler(5);

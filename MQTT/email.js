@@ -3,17 +3,17 @@ require('dotenv').config();
 async function mailHandler(value) {
 
     const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true, // use SSL
-        auth: {
-            user: process.env.EMAIL_HOST, // your Gmail address
-            pass: process.env.EMAIL_API_KEY // your Gmail App Password
-        },
-        tls: {
-            rejectUnauthorized: false
-        }
-    });
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: { user: process.env.EMAIL_HOST, pass: process.env.EMAIL_API_KEY },
+  logger: true,
+  debug: true,
+  connectionTimeout: 20000,
+  greetingTimeout: 20000,
+  socketTimeout: 30000,
+});
+
 
     // הגדרת ההודעה
     const mailOptions = {
