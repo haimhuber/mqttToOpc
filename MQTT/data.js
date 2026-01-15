@@ -21,6 +21,10 @@ const storeData = async function (data) {
 };
 
 
+// Setpoint example Up to 27.5
+// Setpoint example Down to 23
+
+
 
 
 
