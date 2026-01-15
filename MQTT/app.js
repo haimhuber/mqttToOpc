@@ -13,5 +13,5 @@ const opcReadData = async () => {
     }
 };
 mqttClient.mqttClient();
-setInterval(opcReadData, 10000); // Read OPC UA data every 60 seconds
+setInterval(opcReadData, 10000); // Read OPC UA data every 10 seconds
 
