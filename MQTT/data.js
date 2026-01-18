@@ -6,7 +6,6 @@ let sensor1Data = [];
 let headerWritten = false;
 let coolingDemand = false;
 
-
 const demandLogFile = async function writeToFile(status) {
    // Write one row
   const row = `${timestampFunction()},Demand Value:${status}\n CMW Set To ${status ? 'ON' : 'OFF'}\n`;
