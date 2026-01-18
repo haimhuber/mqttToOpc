@@ -28,7 +28,6 @@ async function writeOpcTags(writeValue) {
         console.log({"Write status": statusCode, timestamp: new Date().toISOString()});   
         await session.close();
         await client.disconnect();
-        mail.mailHandler(writeValue);
         console.log({"Disconnected": true, timestamp: new Date().toISOString()});
     } catch (err) {
         console.log("Error:", err);

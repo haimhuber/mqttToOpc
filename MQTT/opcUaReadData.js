@@ -1,7 +1,6 @@
 const { OPCUAClient, AttributeIds, DataType } = require("node-opcua");
 require('dotenv').config();
 
-
 async function readOpcTags() {
     const client = OPCUAClient.create({ endpoint_must_exist: false });
     const endpointUrl = process.env.OPC_UA_SERVER_URL; // Change to your OPC UA server URL
@@ -20,9 +19,11 @@ async function readOpcTags() {
         demandForCwm2 = dataValue.value.value;
         await session.close();
         await client.disconnect();
-        console.log({"Disconnected": true, timestamp: new Date().toISOString()});
     } catch (err) {
         console.log("Error:", err);
+        console.log("OPC UA Server might be down. Returning null for demand status.", { timestamp: new Date().toISOString()});
+        demandForCwm2 = null;
+        return demandForCwm2;
     }
 
     // Wtire Client ID name 
@@ -39,15 +40,14 @@ async function readOpcTags() {
                     }
                 }
             };
-            const statusCode = await session.write(valueToWrite);
-            console.log({"Write status": statusCode, timestamp: new Date().toISOString()});   
+            const statusCode = await session.write(valueToWrite);  
             await session.close();
             await client.disconnect();
         } catch (err) {
             console.log("Error:", err);
+            console.log("OPC UA Server might be down. Unable to write client name.", { timestamp: new Date().toISOString()});
         }
         return demandForCwm2;
 }
-
 
 module.exports = { readOpcTags };
