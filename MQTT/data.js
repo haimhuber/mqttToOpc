@@ -4,6 +4,14 @@ const readOpcData = require('./opcUaReadData');
 let sensor1Data = [];
 let headerWritten = false;
 let coolingDemand = false;
+
+
+const demandLogFile = async function writeToFile(status) {
+   // Write one row
+  const row = `${new Date().toISOString()},Demand Value:${status}\n CMW Set To ${status ? 'ON' : 'OFF'}\n`;
+  fs.appendFileSync("demandLog.csv", row);
+}
+
 const storeData = async function (data) {
   sensor1Data.push(data);
   // Write header only once
@@ -27,10 +35,12 @@ const writeDemand = async function(data) {
       console.log("****🔺 Temperature high, increasing cooling demand. Bit Set To TRUE****", { timestamp: new Date().toISOString()});
       await writeToOpcTags.writeOpcTags(true);
       coolingDemand = true;
+      await demandLogFile(true);
     } else if (data.remote_avg_temp_c < 23) {
       console.log("****🔻 Temperature low, decreasing cooling demand. Bit Set To FALSE****", { timestamp: new Date().toISOString()});
       await writeToOpcTags.writeOpcTags(false);
       coolingDemand = false;
+      await demandLogFile(false);
     }
     const demandCurrentStatus = await readOpcData.readOpcTags(); // Read current demand status
     if (demandCurrentStatus === null) {
@@ -48,4 +58,4 @@ const writeDemand = async function(data) {
 // Setpoint example Down to 23
 
 
-module.exports = { storeData };
+module.exports = { storeData, demandLogFile };
