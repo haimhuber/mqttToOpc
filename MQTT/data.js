@@ -24,11 +24,11 @@ const writeDemand = async function(data) {
   while (loopOpcWrite) {
     console.log("****🔄 Initializing OPC UA write check...****", { timestamp: new Date().toISOString()});
     if (data.remote_avg_temp_c > 27.5) {
-      console.log("****🔺 Temperature high, increasing cooling demand.****", { timestamp: new Date().toISOString()});
+      console.log("****🔺 Temperature high, increasing cooling demand. Bit Set To TRUE****", { timestamp: new Date().toISOString()});
       await writeToOpcTags.writeOpcTags(true);
       coolingDemand = true;
     } else if (data.remote_avg_temp_c < 23) {
-      console.log("****🔻 Temperature low, decreasing cooling demand.****", { timestamp: new Date().toISOString()});
+      console.log("****🔻 Temperature low, decreasing cooling demand. Bit Set To FALSE****", { timestamp: new Date().toISOString()});
       await writeToOpcTags.writeOpcTags(false);
       coolingDemand = false;
     }
