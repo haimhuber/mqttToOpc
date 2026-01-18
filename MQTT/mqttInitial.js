@@ -12,7 +12,6 @@ var options = {
         rejectUnauthorized: false
     };
 
-
 async function mqttClient() {
 
     // initialize the MQTT client
@@ -38,7 +37,6 @@ async function mqttClient() {
             // Only parse if message looks like JSON
         } catch (e) {
             console.log("Error parsing message:", e);
-            console.log({"Message content": msgStr, timestamp: new Date().toISOString()});
         }
     });
 

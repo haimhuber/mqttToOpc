@@ -7,7 +7,7 @@ async function writeOpcTags(writeValue) {
     
     const client = OPCUAClient.create({ endpoint_must_exist: false });
     const endpointUrl = process.env.OPC_UA_SERVER_URL; // Change to your OPC UA server URL
-    const nodeId = "ns=2;s=NeuRealltyDemand"; // Change to your nodeId
+    const nodeId = "ns=2;s=InternalTest"; // Change to your nodeId
     try {
         await client.connect(endpointUrl);
         console.log({ "Connected to OPC UA server": true, timestamp: new Date().toISOString()});
