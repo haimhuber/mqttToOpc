@@ -1,7 +1,7 @@
 const { OPCUAClient, AttributeIds, DataType } = require("node-opcua");
 require('dotenv').config();
 const mail = require("./email");
-const getTimestamp = require('./data.js');
+const { timestampFunction } = require('./timestamp');
 
 async function writeOpcTags(writeValue) {
     
@@ -10,10 +10,10 @@ async function writeOpcTags(writeValue) {
     const nodeId = "ns=2;s=NeuRealltyDemand"; // Change to your nodeId
     try {
         await client.connect(endpointUrl);
-        console.log({ "Connected to OPC UA server": true, timestamp: getTimestamp.timestampFunction()});
+        console.log({ "Connected to OPC UA server": true, timestamp: timestampFunction()});
 
         const session = await client.createSession();
-        console.log({"Session created": true, timestamp: getTimestamp.timestampFunction()});
+        console.log({"Session created": true, timestamp: timestampFunction()});
         const valueToWrite = {
             nodeId: nodeId,
             attributeId: AttributeIds.Value,
@@ -25,10 +25,10 @@ async function writeOpcTags(writeValue) {
             }
         };
         const statusCode = await session.write(valueToWrite);
-        console.log({"Write status": statusCode, timestamp: getTimestamp.timestampFunction()});   
+        console.log({"Write status": statusCode, timestamp: timestampFunction()});   
         await session.close();
         await client.disconnect();
-        console.log({"Disconnected": true, timestamp: getTimestamp.timestampFunction()});
+        console.log({"Disconnected": true, timestamp: timestampFunction()});
     } catch (err) {
         console.log("Error:", err);
     }

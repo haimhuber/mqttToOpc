@@ -1,6 +1,6 @@
 const { OPCUAClient, AttributeIds, DataType, timestamp } = require("node-opcua");
 require('dotenv').config();
-const getTimestamp = require('./data.js');
+const { timestampFunction } = require('./timestamp');
 async function writeVertivTags(writeValue) {
     
     const client = OPCUAClient.create({ endpoint_must_exist: false });
@@ -9,14 +9,14 @@ async function writeVertivTags(writeValue) {
                     "ns=2;s=vertiv_return_air_temp_c", "ns=2;s=vertiv_supply_air_temp_c"]; // Change to your nodeId
     vertivData = [writeValue.fan_speed_pct, writeValue.remote_avg_temp_c, 
                    writeValue.return_air_temp_c, writeValue.supply_air_temp_c]; 
-    console.log({vertiv: vertivData, timestamp: getTimestamp.timestampFunction()});
+    console.log({vertiv: vertivData, timestamp: timestampFunction()});
     
     for (let i = 0; i < nodeIds.length; i++) {
         try {
         await client.connect(endpointUrl);
-        console.log({"Connected to OPC UA server": true, timestamp: getTimestamp.timestampFunction()});
+        console.log({"Connected to OPC UA server": true, timestamp: timestampFunction()});
         const session = await client.createSession();
-        console.log({"Session created": true, timestamp: getTimestamp.timestampFunction()});
+        console.log({"Session created": true, timestamp: timestampFunction()});
         const valueToWrite = {
             nodeId: nodeIds[i],
             attributeId: AttributeIds.Value,
@@ -28,10 +28,10 @@ async function writeVertivTags(writeValue) {
             }
         };
         const statusCode = await session.write(valueToWrite);
-        console.log({"Write status": statusCode, timestamp: getTimestamp.timestampFunction()});   
+        console.log({"Write status": statusCode, timestamp: timestampFunction()});   
         await session.close();
         await client.disconnect();
-        console.log({"Disconnected": true, timestamp: getTimestamp.timestampFunction()});
+        console.log({"Disconnected": true, timestamp: timestampFunction()});
     } catch (err) {
         console.log("Error:", err);
     }

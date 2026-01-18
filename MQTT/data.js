@@ -9,7 +9,7 @@ let coolingDemand = false;
 
 const demandLogFile = async function writeToFile(status) {
    // Write one row
-  const row = `${new Date().toISOString()},Demand Value:${status}\n CMW Set To ${status ? 'ON' : 'OFF'}\n`;
+  const row = `${timestampFunction()},Demand Value:${status}\n CMW Set To ${status ? 'ON' : 'OFF'}\n`;
   fs.appendFileSync("demandLog.csv", row);
 }
 
