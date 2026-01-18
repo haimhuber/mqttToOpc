@@ -1,4 +1,4 @@
-const { OPCUAClient, AttributeIds, DataType } = require("node-opcua");
+const { OPCUAClient, AttributeIds, DataType, timestamp } = require("node-opcua");
 require('dotenv').config();
 
 async function writeVertivTags(writeValue) {
@@ -8,16 +8,15 @@ async function writeVertivTags(writeValue) {
     const nodeIds = ["ns=2;s=vertiv_fan_speed_pct", "ns=2;s=vertiv_remote_avg_temp_c", 
                     "ns=2;s=vertiv_return_air_temp_c", "ns=2;s=vertiv_supply_air_temp_c"]; // Change to your nodeId
     vertivData = [writeValue.fan_speed_pct, writeValue.remote_avg_temp_c, 
-                   writeValue.return_air_temp_c, writeValue.supply_air_temp_c];
-    console.log("Writing Vertiv Data to OPC UA Server:", vertivData);
+                   writeValue.return_air_temp_c, writeValue.supply_air_temp_c]; 
+    console.log({vertiv: vertivData, timestamp: new Date().toISOString()});
     
     for (let i = 0; i < nodeIds.length; i++) {
         try {
         await client.connect(endpointUrl);
-        console.log("Connected to OPC UA server");
-
+        console.log({"Connected to OPC UA server": true, timestamp: new Date().toISOString()});
         const session = await client.createSession();
-        console.log("Session created");
+        console.log({"Session created": true, timestamp: new Date().toISOString()});
         const valueToWrite = {
             nodeId: nodeIds[i],
             attributeId: AttributeIds.Value,
@@ -29,16 +28,13 @@ async function writeVertivTags(writeValue) {
             }
         };
         const statusCode = await session.write(valueToWrite);
-        console.log("Write status:", statusCode);   
+        console.log({"Write status": statusCode, timestamp: new Date().toISOString()});   
         await session.close();
         await client.disconnect();
-        console.log("Disconnected");
+        console.log({"Disconnected": true, timestamp: new Date().toISOString()});
     } catch (err) {
         console.log("Error:", err);
     }
     }
-    
-
-    
 };
 module.exports = { writeVertivTags };

@@ -10,10 +10,10 @@ async function writeOpcTags(writeValue) {
     const nodeId = "ns=2;s=NeuRealltyDemand"; // Change to your nodeId
     try {
         await client.connect(endpointUrl);
-        console.log("Connected to OPC UA server");
+        console.log({ "Connected to OPC UA server": true, timestamp: new Date().toISOString()});
 
         const session = await client.createSession();
-        console.log("Session created");
+        console.log({"Session created": true, timestamp: new Date().toISOString()});
         const valueToWrite = {
             nodeId: nodeId,
             attributeId: AttributeIds.Value,
@@ -25,11 +25,11 @@ async function writeOpcTags(writeValue) {
             }
         };
         const statusCode = await session.write(valueToWrite);
-        console.log("Write status:", statusCode);   
+        console.log({"Write status": statusCode, timestamp: new Date().toISOString()});   
         await session.close();
         await client.disconnect();
         mail.mailHandler(writeValue);
-        console.log("Disconnected");
+        console.log({"Disconnected": true, timestamp: new Date().toISOString()});
     } catch (err) {
         console.log("Error:", err);
     }

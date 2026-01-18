@@ -11,16 +11,16 @@ async function readOpcTags() {
     let demandForCwm2 = null;
     try {
         await client.connect(endpointUrl);
-        console.log("Connected to OPC UA server");
+        console.log({"Connected to OPC UA server": true, timestamp: new Date().toISOString()});
         const session = await client.createSession();
-        console.log("Session created");
+        console.log({"Session created": true, timestamp: new Date().toISOString()});
         // Read a variable node (example nodeId)
         const dataValue = await session.readVariableValue(nodeId);
-        console.log("Value:", dataValue.value.value);
+        console.log({"Value": dataValue.value.value, timestamp: new Date().toISOString()});
         demandForCwm2 = dataValue.value.value;
         await session.close();
         await client.disconnect();
-        console.log("Disconnected");
+        console.log({"Disconnected": true, timestamp: new Date().toISOString()});
     } catch (err) {
         console.log("Error:", err);
     }
@@ -28,10 +28,7 @@ async function readOpcTags() {
     // Wtire Client ID name 
      try {
             await client.connect(endpointUrl);
-            console.log("Connected to OPC UA server");
-    
             const session = await client.createSession();
-            console.log("Session created");
             const valueToWrite = {
                 nodeId: ClientNodeId,
                 attributeId: AttributeIds.Value,
@@ -43,10 +40,9 @@ async function readOpcTags() {
                 }
             };
             const statusCode = await session.write(valueToWrite);
-            console.log("Write status:", statusCode);   
+            console.log({"Write status": statusCode, timestamp: new Date().toISOString()});   
             await session.close();
             await client.disconnect();
-            console.log("Disconnected");
         } catch (err) {
             console.log("Error:", err);
         }
