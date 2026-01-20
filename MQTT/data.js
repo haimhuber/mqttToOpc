@@ -2,6 +2,7 @@ const fs = require("fs");
 const writeToOpcTags = require('./opcUaWriteData');
 const readOpcData = require('./opcUaReadData');
 const { timestampFunction } = require('./timestamp');
+const emailHandler = require('./email');
 let sensor1Data = [];
 let headerWritten = false;
 let coolingDemand = false;
@@ -31,14 +32,16 @@ const writeDemand = async function(data) {
   let loopOpcWrite = true;
   while (loopOpcWrite) {
     console.log("****🔄 Initializing OPC UA write check...****", { timestamp: timestampFunction()});
-    if (data.remote_avg_temp_c > 27.5) {
+    if (data.remote_avg_temp_c > 27.5 && await readOpcData.readOpcTags() === false) {
   console.log("****🔺 Temperature high, increasing cooling demand. Bit Set To TRUE****", { timestamp: timestampFunction()});
       await writeToOpcTags.writeOpcTags(true);
+      emailHandler.mailHandler("⚠️ Alert: Cooling demand increased due to high temperature! CWM2 Set to ON.");
       coolingDemand = true;
       await demandLogFile(true);
-    } else if (data.remote_avg_temp_c < 23) {
+    } else if (data.remote_avg_temp_c < 23 && await readOpcData.readOpcTags() === true) {
   console.log("****🔻 Temperature low, decreasing cooling demand. Bit Set To FALSE****", { timestamp: timestampFunction()});
       await writeToOpcTags.writeOpcTags(false);
+      emailHandler.mailHandler("⚠️ Alert: Cooling demand decreased due to low temperature! CWM2 Set to OFF.");
       coolingDemand = false;
       await demandLogFile(false);
     }
@@ -53,7 +56,6 @@ const writeDemand = async function(data) {
     }
   }
 }
-
 
 // Setpoint example Up to 27.5
 // Setpoint example Down to 23
