@@ -7,7 +7,6 @@ const csv = require("csv-parser");
 const opcUaRead = require("./opcUaReadData");
 const opcUaWrite = require("./opcUaWriteData");
 const mqttPublish = require("./mqttPublish");
-const { osconfig } = require("googleapis/build/src/apis/osconfig");
 const host = "192.168.1.148";
 const app = express();
 app.use(cors());
@@ -26,7 +25,6 @@ function readCsv(filePath) {
       .on("error", reject);
   });
 }
-
   try {
     const filePath = path.join(__dirname, "data.csv");
     const rows = await readCsv(filePath); // מהפונקציה למעלה
