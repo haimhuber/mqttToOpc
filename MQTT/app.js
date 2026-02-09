@@ -3,6 +3,7 @@ const mqttPublish = require("./mqttPublish");
 const opcUaRead = require("./opcUaReadData");
 const opcUaWrite = require("./opcUaWriteData");
 const dataModule = require("./data");
+require("./server");
 const opcReadData = async () => {   
     try {
         const demandValue = await opcUaRead.readOpcTags();
@@ -12,5 +13,5 @@ const opcReadData = async () => {
     }
 };
  mqttClient.mqttClient();
- setInterval(opcReadData, 10000); // Read OPC UA data every 60 seconds
+ setInterval(opcReadData, 10000); // Read OPC UA data every 10 seconds
     

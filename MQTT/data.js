@@ -3,6 +3,7 @@ const writeToOpcTags = require('./opcUaWriteData');
 const readOpcData = require('./opcUaReadData');
 const { timestampFunction } = require('./timestamp');
 const emailHandler = require('./email');
+
 let sensor1Data = [];
 let headerWritten = false;
 let coolingDemand = false;
