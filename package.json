@@ -8,6 +8,7 @@
     "express": "^5.2.1",
     "googleapis": "^170.1.0",
     "mqtt": "^5.14.1",
+    "mssql": "^12.2.0",
     "node-opcua": "^2.160.0",
     "nodemailer": "^7.0.12",
     "prompt-sync": "^4.2.0",

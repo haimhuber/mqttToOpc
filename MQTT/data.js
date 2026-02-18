@@ -54,6 +54,7 @@ const writeDemand = async function(data) {
     if (coolingDemand === demandCurrentStatus) {
       console.log("****✅ Cooling demand status match.****", { timestamp: timestampFunction()});
       loopOpcWrite = false; // Finish loop if status matches
+      return;
     }
   }
 }
