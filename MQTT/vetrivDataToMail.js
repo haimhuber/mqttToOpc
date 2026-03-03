@@ -33,14 +33,24 @@ async function getTodayRowsFromCsv() {
     );
 
     let temp = 0;
+    let highTemp = -Infinity;
+    let lowTemp = Infinity;
     for (const row of todayRows) {
         temp += parseFloat(row.remote_avg_temp_c);
+        if (parseFloat(row.remote_avg_temp_c) > highTemp) {
+            highTemp = parseFloat(row.remote_avg_temp_c);
+        }
+        if (parseFloat(row.remote_avg_temp_c) < lowTemp) {
+            lowTemp = parseFloat(row.remote_avg_temp_c);
+        }
     }
     const avgTemp = todayRows.length ? temp / todayRows.length : 0;
-    console.log({ ok: true, averageTemp: Math.floor(avgTemp).toFixed(1) });
+    console.log({ ok: true, averageTemp: Math.floor(avgTemp).toFixed(1), highTemp: Math.floor(highTemp).toFixed(1), lowTemp: Math.floor(lowTemp).toFixed(1) });
     mail.mailHandler(
       `Daily Temperature Report - Neurality Vertiv\n,
-      The average temperature for ${today} is ${Math.floor(avgTemp).toFixed(1)}°C.`
+      The average temperature for ${today} is ${Math.floor(avgTemp).toFixed(1)}°C.
+      The highest temperature for ${today} is ${Math.floor(highTemp).toFixed(1)}°C.
+      The lowest temperature for ${today} is ${Math.floor(lowTemp).toFixed(1)}°C.`
     );  
   } catch (e) {
     console.log({ ok: false, error: e.message });
