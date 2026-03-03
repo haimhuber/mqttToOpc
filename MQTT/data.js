@@ -34,15 +34,15 @@ const writeDemand = async function(data) {
   while (loopOpcWrite) {
     console.log("****🔄 Initializing OPC UA write check...****", { timestamp: timestampFunction()});
     if (data.remote_avg_temp_c > 27.5 && await readOpcData.readOpcTags() === false) {
-  console.log("****🔺 Temperature high, increasing cooling demand. Bit Set To TRUE****", { timestamp: timestampFunction()});
+  console.log(`****🔺 Temperature high: ${data.remote_avg_temp_c}, increasing cooling demand. Bit Set To TRUE****`, { timestamp: timestampFunction()});
       await writeToOpcTags.writeOpcTags(true);
-      emailHandler.mailHandler("⚠️ Alert: Cooling demand increased due to high temperature! CWM2 Set to ON.");
+      emailHandler.mailHandler(`⚠️ Alert: Cooling demand increased due to high temperature! CWM2 Set to ON. Current Temperature: ${data.remote_avg_temp_c}`);
       coolingDemand = true;
       await demandLogFile(true);
     } else if (data.remote_avg_temp_c < 23 && await readOpcData.readOpcTags() === true) {
-  console.log("****🔻 Temperature low, decreasing cooling demand. Bit Set To FALSE****", { timestamp: timestampFunction()});
+  console.log(`****🔻 Temperature low: ${data.remote_avg_temp_c}, decreasing cooling demand. Bit Set To FALSE****`, { timestamp: timestampFunction()});
       await writeToOpcTags.writeOpcTags(false);
-      emailHandler.mailHandler("⚠️ Alert: Cooling demand decreased due to low temperature! CWM2 Set to OFF.");
+      emailHandler.mailHandler(`⚠️ Alert: Cooling demand decreased due to low temperature! CWM2 Set to OFF. Current Temperature: ${data.remote_avg_temp_c}`);
       coolingDemand = false;
       await demandLogFile(false);
     }
@@ -56,6 +56,9 @@ const writeDemand = async function(data) {
       loopOpcWrite = false; // Finish loop if status matches
       return;
     }
+    const delay = 5000; // 5 seconds delay before retrying
+    console.log(`****🔄 Cooling demand status mismatch. Retrying OPC UA write in ${delay / 1000} seconds...****`, { timestamp: timestampFunction()});
+    await new Promise(resolve => setTimeout(resolve, delay)); // Wait before retrying
   }
 }
 
