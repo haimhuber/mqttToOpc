@@ -30,8 +30,7 @@ const storeData = async function (data) {
 
 // Write cooling demand based on temperature
 const writeDemand = async function(data) {
-  let loopOpcWrite = true;
-  while (loopOpcWrite) {
+
     console.log("****🔄 Initializing OPC UA write check...****", { timestamp: timestampFunction()});
     if (data.remote_avg_temp_c > 27.5 && await readOpcData.readOpcTags() === false) {
   console.log(`****🔺 Temperature high: ${data.remote_avg_temp_c}, increasing cooling demand. Bit Set To TRUE****`, { timestamp: timestampFunction()});
@@ -53,13 +52,11 @@ const writeDemand = async function(data) {
     } 
     if (coolingDemand === demandCurrentStatus) {
       console.log("****✅ Cooling demand status match.****", { timestamp: timestampFunction()});
-      loopOpcWrite = false; // Finish loop if status matches
       return;
     }
     const delay = 5000; // 5 seconds delay before retrying
     console.log(`****🔄 Cooling demand status mismatch. Retrying OPC UA write in ${delay / 1000} seconds...****`, { timestamp: timestampFunction()});
     await new Promise(resolve => setTimeout(resolve, delay)); // Wait before retrying
-  }
 }
 
 // Setpoint example Up to 27.5

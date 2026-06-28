@@ -23,7 +23,7 @@ const mailHandler = async function(text){
       const info = await transporter.sendMail({
         from: process.env.EMAIL_HOST,
         to: process.env.EMAIL_END_POINT,
-        subject: "Zenon Scada - ABB HQ",
+        subject: "ABB Smart Maintenance - Vertiv Daily Data",
         text: text,
       });
       const messageId = info.messageId;
